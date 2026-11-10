@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060b2b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AZ: UCL">
+<title>AZ: UCL</title>
+<style>
+:root{--bg:#060b2b;--bg2:#101c63;--surf:rgba(255,255,255,.07);--line:rgba(190,215,255,.22);--tx:#eef4ff;--mut:#a9b8e6;--ice:#bfe0ff;--ink:#060b2b;--loss:#ff8c9b;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef3ff;--bg2:#cfdcff;--surf:#fff;--line:#b8c7ee;--tx:#0a1450;--mut:#4a5a95;--ice:#1b2f8f;--ink:#fff;--loss:#c4283e;color-scheme:light}}
+:root[data-theme="dark"]{--bg:#060b2b;--bg2:#101c63;--surf:rgba(255,255,255,.07);--line:rgba(190,215,255,.22);--tx:#eef4ff;--mut:#a9b8e6;--ice:#bfe0ff;--ink:#060b2b;--loss:#ff8c9b}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--tx);font:15px/1.45 system-ui,sans-serif;background:radial-gradient(120% 60% at 50% 0,var(--bg2),var(--bg) 70%) fixed;min-height:100vh;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+header{text-align:center;padding:22px 16px 6px}
+.ring{width:92px;height:92px;margin:0 auto 8px;border-radius:50%;border:2px solid var(--ice);display:grid;place-items:center;position:relative;background:radial-gradient(circle,var(--bg2),var(--bg))}
+.ring i{position:absolute;font-style:normal;color:var(--ice);font-size:13px;left:50%;top:50%;transform:rotate(var(--a)) translateY(-37px) translateX(-50%)}
+.ring b{font-size:24px;font-weight:800;letter-spacing:-.02em}
+h1{margin:0;font-size:22px;font-weight:800}
+.sub{color:var(--mut);margin:2px 0 0;font-size:13px}
+main{padding:10px 16px;max-width:640px;margin:auto}
+h2{font-size:15px;margin:18px 0 8px;color:var(--ice)}
+.tabs{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;background:var(--bg);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));z-index:9}
+.tabs button{flex:1;background:none;border:0;color:var(--mut);font:600 12px system-ui,sans-serif;padding:6px 2px;cursor:pointer;display:grid;gap:2px;justify-items:center}
+.tabs button span{font-size:19px;line-height:1}
+.tabs button.on{color:var(--ice)}
+.tabs button[hidden]{display:none}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:400px}
+th,td{padding:10px 5px;text-align:center;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-weight:600;font-size:12px}
+td.t,th.t{text-align:left}
+tr.q td:first-child{box-shadow:inset 3px 0 var(--ice)}
+td.p{font-weight:800}
+.note{color:var(--mut);font-size:12.5px;margin:10px 0}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.meta{color:var(--mut);font-size:12.5px}
+.sc{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;margin-top:4px}
+.sc b{font-size:20px;min-width:64px;text-align:center}
+.sc span:last-child{text-align:right}
+.day{margin:16px 0 6px;color:var(--ice);font-weight:700;font-size:14px}
+.seg,.chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px}
+.seg button,.chips button{border:1px solid var(--line);background:transparent;color:var(--mut);padding:7px 14px;border-radius:999px;font:600 13px system-ui,sans-serif;white-space:nowrap;cursor:pointer}
+.seg button.on,.chips button.on{background:var(--ice);border-color:var(--ice);color:var(--ink)}
+.slot{display:flex;justify-content:space-between;gap:8px;background:var(--surf);border:1px dashed var(--line);border-radius:14px;padding:12px 14px;margin-bottom:6px}
+.slot em{color:var(--mut);font-style:normal}.slot .w{color:var(--ice);font-weight:800}
+.empty{color:var(--mut);text-align:center;padding:28px 0}
+form,.grid{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:grid;gap:4px;color:var(--mut);font-size:12.5px}
+select,input{font:inherit;color:var(--tx);background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:10px;width:100%}
+select option{color:#000}
+.go,.sm{background:var(--ice);color:var(--ink);border:0;border-radius:12px;padding:12px;font:800 14px system-ui,sans-serif;cursor:pointer}
+.sm{padding:8px 12px;font-size:12.5px}.sm.del{background:transparent;color:var(--loss);border:1px solid var(--line)}
+.mrow{display:grid;grid-template-columns:1fr 52px 52px;gap:6px;align-items:center}
+.mrow input{padding:8px;text-align:center}
+.acts{display:flex;gap:6px;margin-top:8px}
+#toast{position:fixed;left:16px;right:16px;bottom:calc(80px + env(safe-area-inset-bottom,0px));background:var(--ice);color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:700;text-align:center;z-index:20}
+#toast:empty{display:none}
+button:focus-visible,input:focus,select:focus{outline:2px solid var(--ice);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <div class="ring"><i style="--a:0deg">★</i><i style="--a:45deg">★</i><i style="--a:90deg">★</i><i style="--a:135deg">★</i><i style="--a:180deg">★</i><i style="--a:225deg">★</i><i style="--a:270deg">★</i><i style="--a:315deg">★</i><b>AZ</b></div>
+  <h1>AZ: UCL</h1>
+  <p class="sub">League phase, then knockouts</p>
+</header>
+<main id="app"></main>
+<nav class="tabs" id="tabs">
+  <button data-v="home" class="on"><span>⌂</span>Home</button>
+  <button data-v="table"><span>☰</span>Table</button>
+  <button data-v="fix"><span>◷</span>Matches</button>
+  <button data-v="ko"><span>★</span>Knockouts</button>
+  <button data-v="admin"><span>✎</span>Manage</button>
+</nav>
+<div id="toast" role="status"></div>
+<script type="application/json" id="state">{"teams":["Alpha FC","Bravo United","Cobra SC","Delta Stars","Eagle City","Falcon FC","Giants","Hawks"],"matches":[{"id":1,"d":"2026-11-02T19:00","h":0,"a":1,"hs":2,"as":1,"r":"League Phase"},{"id":2,"d":"2026-11-02T20:30","h":2,"a":3,"hs":0,"as":0,"r":"League Phase"},{"id":3,"d":"2026-11-04T19:00","h":4,"a":5,"hs":3,"as":2,"r":"League Phase"},{"id":4,"d":"2026-11-04T20:30","h":6,"a":7,"hs":1,"as":2,"r":"League Phase"},{"id":5,"d":"2026-11-07T19:00","h":1,"a":2,"hs":1,"as":3,"r":"League Phase"},{"id":6,"d":"2026-11-07T20:30","h":3,"a":0,"hs":null,"as":null,"r":"League Phase"}],"n":7}</script>
+<script>
+var S=JSON.parse(document.getElementById("state").textContent);
+try{var sv=localStorage.getItem("azucl");if(sv)S=JSON.parse(sv)}catch(e){}
+var ROUNDS=["League Phase","Semi-final","Final"];
+var view="home",seg="up",filter="All",canEdit=false,art=null;
+var app=document.getElementById("app"),toastEl=document.getElementById("toast");
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function T(i){return S.teams[i]===undefined?"?":esc(S.teams[i])}
+function done(m){return m.hs!==null&&m.as!==null}
+function fd(d){return new Date(d).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}
+function ft(d){return new Date(d).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}
+function toast(t){toastEl.textContent=t;if(t)setTimeout(function(){if(toastEl.textContent===t)toastEl.textContent=""},3500)}
+function commit(msg){
+  try{localStorage.setItem("azucl",JSON.stringify(S));toast(msg||"Saved")}catch(e){toast("Could not save on this device.")}
+}
+function standings(){
+  var s=S.teams.map(function(n,i){return{n:n,p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}});
+  S.matches.filter(function(m){return m.r==="League Phase"&&done(m)&&s[m.h]&&s[m.a]}).forEach(function(m){
+    var H=s[m.h],A=s[m.a];H.p++;A.p++;H.gf+=m.hs;H.ga+=m.as;A.gf+=m.as;A.ga+=m.hs;
+    if(m.hs>m.as){H.w++;A.l++;H.pts+=3}else if(m.hs<m.as){A.w++;H.l++;A.pts+=3}else{H.d++;A.d++;H.pts++;A.pts++}});
+  return s.sort(function(a,b){return b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf||a.n.localeCompare(b.n)});
+}
+function card(m){
+  var sc=done(m)?m.hs+" - "+m.as:"vs";
+  return '<div class="card"><div class="meta">'+ft(m.d)+' · '+m.r+'</div><div class="sc"><span>'+T(m.h)+'</span><b>'+sc+'</b><span>'+T(m.a)+'</span></div></div>';
+}
+function grouped(list){
+  var out="",last="";
+  list.forEach(function(m){var d=fd(m.d);if(d!==last){out+='<div class="day">'+d+'</div>';last=d}out+=card(m)});
+  return out;
+}
+function byDate(a,b){return new Date(a.d)-new Date(b.d)}
+function home(){
+  var up=S.matches.filter(function(m){return!done(m)}).sort(byDate).slice(0,3);
+  var rs=S.matches.filter(done).sort(function(a,b){return byDate(b,a)}).slice(0,3);
+  return '<h2>Next matches</h2>'+(up.length?up.map(card).join(""):'<p class="empty">No matches scheduled yet.</p>')+
+  '<h2>Latest results</h2>'+(rs.length?rs.map(card).join(""):'<p class="empty">No results yet.</p>');
+}
+function table(){
+  var q=Math.min(4,S.teams.length);
+  var r=standings().map(function(t,k){var gd=t.gf-t.ga;
+    return '<tr class="'+(k<q?'q':'')+'"><td>'+(k+1)+'</td><td class="t">'+esc(t.n)+'</td><td>'+t.p+'</td><td>'+t.w+'</td><td>'+t.d+'</td><td>'+t.l+'</td><td>'+(gd>0?'+':'')+gd+'</td><td class="p">'+t.pts+'</td></tr>'}).join("");
+  return '<h2>League table</h2><div class="scroll"><table><tr><th>#</th><th class="t">Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr>'+r+'</table></div><p class="note">Top 4 go to the semi-finals. Ties are split by goal difference, then goals scored.</p>';
+}
+function fix(){
+  var h='<div class="seg"><button data-s="up" class="'+(seg==="up"?'on':'')+'">Upcoming</button><button data-s="res" class="'+(seg==="res"?'on':'')+'">History</button></div>';
+  if(seg==="up"){
+    var u=S.matches.filter(function(m){return!done(m)}).sort(byDate);
+    return h+(u.length?grouped(u):'<p class="empty">No upcoming matches.</p>');
+  }
+  var chips='<div class="chips">'+["All"].concat(ROUNDS).map(function(c){return '<button data-f="'+c+'" class="'+(c===filter?'on':'')+'">'+c+'</button>'}).join("")+'</div>';
+  var l=S.matches.filter(function(m){return done(m)&&(filter==="All"||m.r===filter)}).sort(function(a,b){return byDate(b,a)});
+  return h+chips+(l.length?grouped(l):'<p class="empty">No results here yet.</p>');
+}
+function winner(r,x,y){
+  var m=S.matches.filter(function(m){return m.r===r&&done(m)&&((m.h===x&&m.a===y)||(m.h===y&&m.a===x))})[0];
+  if(!m||m.hs===m.as)return null;
+  var hw=m.hs>m.as;return hw?m.h:m.a;
+}
+function ko(){
+  var idx={};S.teams.forEach(function(n,i){idx[n]=i});
+  var s=standings().map(function(t){return t.p?idx[t.n]:null});
+  function nm(i){return i===null||i===undefined?"TBD":T(i)}
+  var w1=s[0]!==null&&s[3]!==null?winner("Semi-final",s[0],s[3]):null,w2=s[1]!==null&&s[2]!==null?winner("Semi-final",s[1],s[2]):null;
+  var wf=w1!==null&&w2!==null?winner("Final",w1,w2):null;
+  function slot(a,b,w){return '<div class="slot"><span class="'+(w===a&&a!==null?'w':'')+'">'+nm(a)+'</span><em>vs</em><span class="'+(w===b&&b!==null?'w':'')+'">'+nm(b)+'</span></div>'}
+  return '<h2>Semi-final 1</h2>'+slot(s[0],s[3],w1)+'<h2>Semi-final 2</h2>'+slot(s[1],s[2],w2)+'<h2>Final</h2>'+slot(w1,w2,wf)+
+  (wf!==null?'<h2>Champion</h2><div class="card sc"><b style="min-width:0">'+T(wf)+'</b></div>':'')+
+  '<p class="note">Semi-finals use the top 4 from the table. Add each knockout match under Manage, using the round name.</p>';
+}
+function opts(sel){return S.teams.map(function(t,i){return '<option value="'+i+'"'+(sel===i?' selected':'')+'>'+esc(t)+'</option>'}).join("")}
+function admin(){
+  if(!canEdit){var hp=!!localStorage.getItem("azucl_pin");return '<h2>'+(hp?'Enter admin PIN':'Set an admin PIN')+'</h2><form id="pf"><label>4-digit PIN<input id="pin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" autocomplete="off"></label><button class="go" type="submit">'+(hp?'Unlock':'Set PIN')+'</button></form><p class="note">Only people with the PIN can edit. Everyone else can only view.</p>'}
+  var today=new Date().toISOString().slice(0,10);
+  var ml=S.matches.slice().sort(function(a,b){return byDate(b,a)}).map(function(m){
+    return '<div class="card" data-id="'+m.id+'"><div class="meta">'+fd(m.d)+' · '+ft(m.d)+' · '+m.r+'</div>'+
+    '<div class="mrow"><span>'+T(m.h)+' vs '+T(m.a)+'</span><input type="number" min="0" class="sh" value="'+(done(m)?m.hs:"")+'" aria-label="Home goals"><input type="number" min="0" class="sa" value="'+(done(m)?m.as:"")+'" aria-label="Away goals"></div>'+
+    '<div class="acts"><button class="sm" data-act="score">Save score</button><button class="sm del" data-act="del">Delete</button></div></div>'}).join("");
+  var tl=S.teams.map(function(t,i){return '<div class="card"><div class="sc"><span>'+esc(t)+'</span><button class="sm del" data-rm="'+i+'">Remove</button></div></div>'}).join("");
+  return '<h2>Schedule or record a match</h2><form id="mf"><div class="row"><label>Home<select id="h">'+opts(0)+'</select></label><label>Away<select id="a">'+opts(Math.min(1,S.teams.length-1))+'</select></label></div>'+
+  '<div class="row"><label>Date<input id="dt" type="date" value="'+today+'"></label><label>Time<input id="tt" type="time" value="19:00"></label></div>'+
+  '<div class="row"><label>Home goals<input id="hs" type="number" min="0" placeholder="Leave blank if not played"></label><label>Away goals<input id="as" type="number" min="0"></label></div>'+
+  '<label>Round<select id="r">'+ROUNDS.map(function(r){return '<option>'+r+'</option>'}).join("")+'</select></label><button class="go" type="submit">Save match</button></form>'+
+  '<h2>Teams</h2><form id="tf" class="row"><input id="tn" placeholder="New team name" aria-label="New team name" maxlength="30"><button class="go" type="submit">Add team</button></form><div style="margin-top:8px">'+tl+'</div>'+
+  '<h2>All matches</h2>'+(ml||'<p class="empty">No matches yet.</p>')+
+  '<h2>Backup</h2><label>Copy this text to keep a backup. Paste it here later to restore.<textarea id="bk" rows="4" style="font:12px monospace;color:var(--tx);background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:8px;width:100%">'+esc(JSON.stringify(S))+'</textarea></label><div class="acts"><button class="sm" id="rs">Restore from text</button><button class="sm del" id="lk">Lock</button></div><h2>Reset</h2><button class="sm del" id="clr">Clear all teams and matches</button>';
+}
+function render(){
+  document.querySelectorAll("#tabs button").forEach(function(b){b.classList.toggle("on",b.dataset.v===view);});
+  app.innerHTML={home:home,table:table,fix:fix,ko:ko,admin:admin}[view]();
+  app.querySelectorAll("[data-s]").forEach(function(b){b.onclick=function(){seg=b.dataset.s;render()}});
+  app.querySelectorAll("[data-f]").forEach(function(b){b.onclick=function(){filter=b.dataset.f;render()}});
+  if(view==="admin")canEdit?wire():wirePin();
+}
+function wire(){
+  var mf=document.getElementById("mf");
+  mf.onsubmit=function(e){e.preventDefault();
+    var g=function(i){return document.getElementById(i).value};
+    if(g("h")===g("a")){toast("Pick two different teams.");return}
+    var hs=g("hs"),as=g("as"),isDone=hs!==""&&as!=="";
+    if((hs===""||as==="")&&(hs!==""||as!=="")){toast("Enter both scores, or leave both blank.");return}
+    S.matches.push({id:S.n++,d:g("dt")+"T"+(g("tt")||"19:00"),h:+g("h"),a:+g("a"),hs:isDone?+hs:null,as:isDone?+as:null,r:g("r")});
+    commit("Match saved");render();};
+  document.getElementById("tf").onsubmit=function(e){e.preventDefault();
+    var v=document.getElementById("tn").value.trim();
+    if(!v){toast("Type a team name.");return}
+    if(S.teams.indexOf(v)>-1){toast("That team already exists.");return}
+    S.teams.push(v);commit("Team added");render();};
+  app.querySelectorAll("[data-rm]").forEach(function(b){b.onclick=function(){
+    var i=+b.dataset.rm;
+    if(S.matches.some(function(m){return m.h===i||m.a===i})){toast("Delete this team's matches first.");return}
+    S.teams.splice(i,1);S.matches.forEach(function(m){if(m.h>i)m.h--;if(m.a>i)m.a--});commit("Team removed");render();}});
+  app.querySelectorAll("[data-act]").forEach(function(b){b.onclick=function(){
+    var c=b.closest("[data-id]"),id=+c.dataset.id,m=S.matches.filter(function(x){return x.id===id})[0];
+    if(b.dataset.act==="del"){S.matches=S.matches.filter(function(x){return x.id!==id});commit("Match deleted");render();return}
+    var h=c.querySelector(".sh").value,a=c.querySelector(".sa").value;
+    if((h===""||a==="")&&(h!==""||a!=="")){toast("Enter both scores, or leave both blank.");return}
+    m.hs=h===""?null:+h;m.as=a===""?null:+a;commit("Score saved");render();}});
+  document.getElementById("lk").onclick=function(){canEdit=false;render()};
+  document.getElementById("rs").onclick=function(){try{var x=JSON.parse(document.getElementById("bk").value);if(!x.teams||!x.matches)throw 0;S=x;commit("Restored");render()}catch(e){toast("That backup text is not valid.")}};
+  document.getElementById("clr").onclick=function(){
+    if(!confirm("Clear all teams and matches? This cannot be undone."))return;
+    S.teams=[];S.matches=[];commit("Cleared");render();};
+}
+function wirePin(){document.getElementById("pf").onsubmit=function(e){e.preventDefault();var v=document.getElementById("pin").value;
+  if(!/^[0-9]{4}$/.test(v)){toast("Use exactly 4 digits.");return}
+  var p=localStorage.getItem("azucl_pin");
+  if(!p){localStorage.setItem("azucl_pin",btoa(v));canEdit=true;toast("PIN set");render();return}
+  if(btoa(v)===p){canEdit=true;render()}else toast("Wrong PIN.")}}
+document.getElementById("tabs").onclick=function(e){var b=e.target.closest("button");if(b&&b.dataset.v){view=b.dataset.v;render();window.scrollTo(0,0)}};
+render();
+</script>
+</body>
+</html>
